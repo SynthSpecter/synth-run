@@ -1,3 +1,10 @@
+/* Custom font import */
+/* Importation de la police personnalisée */
+@font-face {
+  font-family: 'Audiowide';
+  src: url('./Audiowide-Regular.ttf') format('truetype');
+}
+
 body {
   margin: 0;
   background-color: #000;
@@ -5,8 +12,63 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  font-family: 'Audiowide', 'Arial', sans-serif;
 }
 
 #gameCanvas {
   border: 2px solid #ff00ff;
+}
+
+.synthwave-modal {
+  background: linear-gradient(45deg, #120458, #4b0082);
+  border: 2px solid #ff00ff;
+  box-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+  color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.synthwave-title {
+  font-size: 2.5em;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+  margin-bottom: 20px;
+}
+
+.synthwave-text {
+  color: #fff;
+  text-shadow: 0 0 5px #fff;
+  margin-bottom: 15px;
+}
+
+.synthwave-button {
+  background: linear-gradient(45deg, #ff00ff, #00ffff);
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1em;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+  margin: 10px;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 5px #fff;
+  box-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+}
+
+.synthwave-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #ff00ff, 0 0 30px #00ffff;
+}
+
+.synthwave-list {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.synthwave-list li {
+  margin-bottom: 10px;
+  color: #f0f0f0;
+  text-shadow: 0 0 5px #f0f0f0;
 }
