@@ -1,16 +1,57 @@
 <!DOCTYPE html>
+<!-- Langue initiale en français, ensuite modifiée par JavaScript / Initial language is French, then JavaScript can update it -->
 <html lang="fr">
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Synth-run</title>
-   <link rel="stylesheet" href="styles.css">
+  <!-- Encodage universel pour gérer les accents / Universal encoding so accented characters work -->
+  <meta charset="UTF-8">
+  <!-- Adaptation aux écrans mobiles / Makes the page adapt to mobile screens -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Description utilisée par les moteurs et l'accessibilité / Description used by search engines and accessibility tools -->
+  <meta name="description" content="Synth Run est un jeu de course synthwave local avec obstacles et contrôles clavier.">
+  <!-- Titre de l'onglet / Browser tab title -->
+  <title>Synth Run</title>
+  <!-- Favicon vide pour éviter une requête 404 / Empty favicon to avoid a 404 request -->
+  <link rel="icon" href="data:,">
+  <!-- Feuille de style principale / Main stylesheet -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-   <canvas id="gameCanvas"></canvas>
-   <script type="module" src="./scripts/main.js"></script>
+  <!-- Conteneur global du jeu / Global game container -->
+  <div class="game-shell">
+    <!-- Barre supérieure avec titre et préférences / Top bar with title and preferences -->
+    <header class="game-toolbar">
+      <!-- Nom visible du jeu / Visible game name -->
+      <h1>Synth Run</h1>
+
+      <!-- Commandes d'interface hors canvas / Interface controls outside the canvas -->
+      <div class="toolbar-controls" aria-label="Préférences">
+        <!-- Sélecteur de langue / Language selector -->
+        <div class="language-toggle" aria-label="Choix de la langue">
+          <!-- Bouton français / French button -->
+          <button id="frButton" class="lang-button" type="button" aria-label="Français">FR</button>
+          <!-- Bouton anglais / English button -->
+          <button id="enButton" class="lang-button" type="button" aria-label="English">EN</button>
+        </div>
+
+        <!-- Bouton de thème clair/sombre / Light/dark theme button -->
+        <button id="themeToggle" class="icon-button" type="button" aria-label="Basculer le thème clair ou sombre">◐</button>
+      </div>
+    </header>
+
+    <!-- Zone principale qui centre le jeu / Main area that centers the game -->
+    <main class="game-stage">
+      <!-- Cadre visuel autour du canvas / Visual frame around the canvas -->
+      <div class="canvas-frame">
+        <!-- Canvas : surface où le jeu est dessiné / Canvas: surface where the game is drawn -->
+        <canvas id="gameCanvas" width="400" height="600" aria-label="Zone de jeu Synth Run"></canvas>
+      </div>
+    </main>
+  </div>
+
+  <!-- Module JavaScript principal / Main JavaScript module -->
+  <script type="module" src="./scripts/main.js"></script>
 </body>
 
 </html>

@@ -1,74 +1,328 @@
-/* Custom font import */
-/* Importation de la police personnalisée */
+/* Police locale du jeu / Local game font */
 @font-face {
+  /* Nom utilisé ensuite dans font-family / Name used later in font-family */
   font-family: 'Audiowide';
+  /* Chemin vers le fichier de police local / Path to the local font file */
   src: url('./Audiowide-Regular.ttf') format('truetype');
+  /* Affiche une police de secours pendant le chargement / Show a fallback font while loading */
+  font-display: swap;
 }
 
+/* Variables du thème sombre par défaut / Default dark theme variables */
+:root {
+  /* Couleur de fond globale / Global background color */
+  --page-bg: #0a0017;
+  /* Fond des panneaux et modales / Panels and modals background */
+  --panel-bg: rgba(20, 4, 48, 0.88);
+  /* Bordure principale néon / Main neon border */
+  --panel-border: #ff2bd6;
+  /* Texte principal / Main text */
+  --text-color: #ffffff;
+  /* Texte secondaire / Secondary text */
+  --muted-color: #dccdff;
+  /* Couleur d'accent rose / Pink accent color */
+  --accent-color: #ff2bd6;
+  /* Couleur d'accent cyan / Cyan accent color */
+  --accent-strong: #00f5ff;
+  /* Ombre néon / Neon shadow */
+  --shadow-color: rgba(255, 43, 214, 0.38);
+  /* Fond du canvas / Canvas background */
+  --canvas-bg: #14002f;
+  /* Couleur de la route / Road color */
+  --road-color: #25213f;
+  /* Couleur de la grille / Grid color */
+  --grid-color: rgba(255, 43, 214, 0.62);
+  /* Couleur des lignes de voie / Lane line color */
+  --lane-color: rgba(255, 255, 255, 0.9);
+  /* Couleur du score dans le canvas / Score color inside canvas */
+  --score-color: #ffffff;
+  /* Couleur de la voiture du joueur / Player car color */
+  --player-color: #00f5ff;
+  /* Couleur des voitures ennemies / Enemy car color */
+  --car-color: #ff2d55;
+  /* Couleur des flaques d'huile / Oil slick color */
+  --oil-color: #090914;
+  /* Couleur des cônes / Cone color */
+  --cone-color: #ff9f1c;
+}
+
+/* Variables remplacées quand le thème clair est actif / Variables overridden when light theme is active */
+[data-theme='light'] {
+  --page-bg: #f6f2ff;
+  --panel-bg: rgba(255, 255, 255, 0.92);
+  --panel-border: #7b2cff;
+  --text-color: #24133f;
+  --muted-color: #5e4c82;
+  --accent-color: #7b2cff;
+  --accent-strong: #00a6c8;
+  --shadow-color: rgba(123, 44, 255, 0.24);
+  --canvas-bg: #fffaff;
+  --road-color: #d9d3eb;
+  --grid-color: rgba(123, 44, 255, 0.45);
+  --lane-color: rgba(36, 19, 63, 0.64);
+  --score-color: #24133f;
+  --player-color: #008da8;
+  --car-color: #c81d4f;
+  --oil-color: #262033;
+  --cone-color: #e57700;
+}
+
+/* Tous les éléments calculent leurs tailles avec bordures incluses / All elements include borders in size calculations */
+* {
+  box-sizing: border-box;
+}
+
+/* Base de la page / Page base */
 body {
+  /* Hauteur minimum : tout l'écran / Minimum height: full screen */
+  min-height: 100vh;
+  /* Supprime la marge par défaut du navigateur / Remove browser default margin */
   margin: 0;
-  background-color: #000;
+  /* Fond avec halo néon + couleur de thème / Background with neon glow + theme color */
+  background:
+    radial-gradient(circle at top, color-mix(in srgb, var(--accent-color) 24%, transparent), transparent 34rem),
+    var(--page-bg);
+  /* Couleur de texte issue du thème / Text color from theme */
+  color: var(--text-color);
+  /* Police synthwave puis polices de secours / Synthwave font then fallback fonts */
+  font-family: 'Audiowide', Arial, sans-serif;
+  /* Empêche le scroll pendant le jeu / Prevent scrolling during gameplay */
+  overflow: hidden;
+}
+
+/* Les boutons héritent de la police du jeu / Buttons inherit the game font */
+button {
+  font: inherit;
+}
+
+/* Conteneur général : barre en haut + jeu au centre / Global container: top bar + centered game */
+.game-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+/* Barre supérieure / Top toolbar */
+.game-toolbar {
+  /* Reste au-dessus de la modale pour garder les boutons accessibles / Stays above modal so controls remain reachable */
+  position: relative;
+  z-index: 30;
+  /* Place le titre à gauche et les contrôles à droite / Put title left and controls right */
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
-  font-family: 'Audiowide', 'Arial', sans-serif;
+  justify-content: space-between;
+  gap: 1rem;
+  /* Padding responsive / Responsive padding */
+  padding: 1rem clamp(1rem, 3vw, 2rem);
+  /* Fond du panneau / Panel background */
+  background: var(--panel-bg);
+  /* Bordure basse néon / Neon bottom border */
+  border-bottom: 1px solid color-mix(in srgb, var(--panel-border) 70%, transparent);
+  /* Effet lumineux / Glow effect */
+  box-shadow: 0 0 24px var(--shadow-color);
 }
 
+/* Titre du jeu / Game title */
+.game-toolbar h1 {
+  margin: 0;
+  color: var(--accent-color);
+  font-size: clamp(1.35rem, 4vw, 2rem);
+  letter-spacing: 0;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--accent-color) 70%, transparent);
+}
+
+/* Groupe des boutons de préférences / Preferences buttons group */
+.toolbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Groupe FR/EN / FR/EN group */
+.language-toggle {
+  display: flex;
+  gap: 0.4rem;
+}
+
+/* Style commun des boutons de langue et thème / Shared style for language and theme buttons */
+.lang-button,
+.icon-button {
+  min-width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--accent-color);
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--panel-border) 40%, transparent);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Les boutons de langue ont un peu plus de largeur / Language buttons need extra width */
+.lang-button {
+  padding: 0 0.75rem;
+}
+
+/* État actif, survol et focus clavier / Active, hover, and keyboard focus state */
+.lang-button.active,
+.lang-button[aria-pressed='true'],
+.icon-button:hover,
+.icon-button:focus-visible,
+.lang-button:hover,
+.lang-button:focus-visible {
+  border-color: var(--accent-strong);
+  color: var(--accent-strong);
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent-strong) 58%, transparent);
+}
+
+/* Zone qui centre le canvas / Area that centers the canvas */
+.game-stage {
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+/* Cadre autour du canvas / Frame around the canvas */
+.canvas-frame {
+  width: min(100%, 440px);
+  aspect-ratio: 2 / 3;
+  display: grid;
+  place-items: center;
+  padding: 0.75rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: var(--panel-bg);
+  box-shadow:
+    0 0 22px var(--shadow-color),
+    inset 0 0 18px color-mix(in srgb, var(--accent-strong) 16%, transparent);
+}
+
+/* Surface de dessin du jeu / Drawing surface of the game */
 #gameCanvas {
-  border: 2px solid #ff00ff;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 2px solid var(--accent-color);
+  border-radius: 6px;
+  background: var(--canvas-bg);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent-color) 52%, transparent);
 }
 
+/* Calque de modale / Modal overlay */
 .synthwave-modal {
-  background: linear-gradient(45deg, #120458, #4b0082);
-  border: 2px solid #ff00ff;
-  box-shadow: 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
-  color: #fff;
-  padding: 30px;
-  border-radius: 15px;
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(5, 0, 15, 0.66);
+}
+
+/* Carte intérieure de la modale / Inner modal panel */
+.synthwave-modal-panel {
+  width: min(92vw, 440px);
+  padding: 1.5rem;
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  background: var(--panel-bg);
+  box-shadow:
+    0 0 22px var(--shadow-color),
+    inset 0 0 18px color-mix(in srgb, var(--accent-color) 12%, transparent);
   text-align: center;
 }
 
+/* Titre dans les modales / Modal title */
 .synthwave-title {
-  font-size: 2.5em;
-  color: #00ffff;
-  text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
-  margin-bottom: 20px;
+  margin: 0 0 1rem;
+  color: var(--accent-strong);
+  font-size: clamp(1.7rem, 7vw, 2.7rem);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--accent-strong) 70%, transparent);
 }
 
+/* Paragraphes de modale / Modal paragraphs */
 .synthwave-text {
-  color: #fff;
-  text-shadow: 0 0 5px #fff;
-  margin-bottom: 15px;
+  margin: 0.65rem 0;
+  color: var(--text-color);
 }
 
-.synthwave-button {
-  background: linear-gradient(45deg, #ff00ff, #00ffff);
-  border: none;
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 1em;
-  font-family: 'Orbitron', sans-serif;
-  cursor: pointer;
-  margin: 10px;
-  transition: all 0.3s ease;
-  text-shadow: 0 0 5px #fff;
-  box-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+/* Texte secondaire / Muted secondary text */
+.synthwave-muted {
+  color: var(--muted-color);
+  font-size: 0.92rem;
 }
 
-.synthwave-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 15px #ff00ff, 0 0 30px #00ffff;
-}
-
+/* Liste d'explication des obstacles / Obstacle explanation list */
 .synthwave-list {
-  list-style-type: none;
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
   padding: 0;
-  margin-bottom: 20px;
+  list-style: none;
+  color: var(--muted-color);
 }
 
-.synthwave-list li {
-  margin-bottom: 10px;
-  color: #f0f0f0;
-  text-shadow: 0 0 5px #f0f0f0;
+/* Rangée de boutons dans les modales / Button row inside modals */
+.synthwave-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+/* Boutons principaux de modale / Main modal buttons */
+.synthwave-button {
+  min-height: 2.75rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: linear-gradient(45deg, var(--accent-color), var(--accent-strong));
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0.65rem 1rem;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent-color) 52%, transparent);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Réaction au survol ou au focus clavier / Reaction to hover or keyboard focus */
+.synthwave-button:hover,
+.synthwave-button:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent-strong) 62%, transparent);
+}
+
+/* Ajustement pour écrans peu hauts / Adjustment for short screens */
+@media (max-height: 760px) {
+  .game-toolbar {
+    padding-block: 0.75rem;
+  }
+
+  .canvas-frame {
+    width: min(100%, 380px);
+  }
+}
+
+/* Ajustement mobile étroit / Narrow mobile adjustment */
+@media (max-width: 520px) {
+  .game-toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .toolbar-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
 }

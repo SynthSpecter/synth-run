@@ -1,0 +1,28 @@
+{
+  "name": "synth-run",
+  "version": "1.1.0",
+  "description": "Un jeu de course synthwave local avec obstacles, thèmes et contrôles clavier.",
+  "type": "module",
+  "main": "index.html",
+  "scripts": {
+    "start": "node scripts/server.cjs",
+    "dev": "node scripts/server.cjs",
+    "check": "node --check scripts/car.js && node --check scripts/player.js && node --check scripts/obstacle.js && node --check scripts/i18n.js && node --check scripts/game.js && node --check scripts/main.js && node --check scripts/server.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SynthSpecter/synth-run.git"
+  },
+  "keywords": [
+    "game",
+    "canvas",
+    "synthwave",
+    "runner"
+  ],
+  "author": "Kévin Thouroude-Leroux",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SynthSpecter/synth-run/issues"
+  },
+  "homepage": "https://github.com/SynthSpecter/synth-run#readme"
+}
