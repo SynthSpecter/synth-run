@@ -71,7 +71,7 @@ synth-run/
 └── scripts/
     ├── car.js
     ├── game.js
-    ├── i18n.js
+    ├── translations.js
     ├── main.js
     ├── obstacle.js
     ├── player.js
